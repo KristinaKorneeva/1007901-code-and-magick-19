@@ -39,8 +39,9 @@ var renderCloud = function (ctx, x, y, color) {
   ctx.fillRect(x, y, CLOUD_WIDTH, CLOUD_HEIGHT);
 };
 
-var random = function () {
-  return MIN_RGB_ALFA + Math.random();
+var random = function (min, max) {
+  var rand = min + Math.random() * (max + 0.1 - min);
+  return rand;
 };
 
 var headerDrawing = function (ctx, textList) {
@@ -58,7 +59,7 @@ window.renderStatistics = function (ctx, names, times) {
   headerDrawing(ctx, HEADING_TEXT);
 
   for (var i = 0; i < names.length; i++) {
-    var saturation = random();
+    var saturation = random(0.1, 1);
     var barX = MARGIN_X + (BAR_WIDTH + GAP) * i;
     var barColor = USER_NAME === names[i] ? USER_COLOR : 'rgba(0, 0, 255, ' + saturation + ')';
     var maxTime = getMaxElement(times);
