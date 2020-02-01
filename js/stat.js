@@ -23,6 +23,7 @@ var STEP_INDENT = 10;
 var HEADING_Y = 30;
 var HEADING_MARGIN = 20;
 var MIN_RGB_ALFA = 0.1;
+var MAX_RGB_ALFA = 1;
 
 var getMaxElement = function (arr) {
   var maxElement = arr[0];
@@ -59,7 +60,7 @@ window.renderStatistics = function (ctx, names, times) {
   headerDrawing(ctx, HEADING_TEXT);
 
   for (var i = 0; i < names.length; i++) {
-    var saturation = random(0.1, 1);
+    var saturation = random(MIN_RGB_ALFA, MAX_RGB_ALFA);
     var barX = MARGIN_X + (BAR_WIDTH + GAP) * i;
     var barColor = USER_NAME === names[i] ? USER_COLOR : 'rgba(0, 0, 255, ' + saturation + ')';
     var maxTime = getMaxElement(times);
