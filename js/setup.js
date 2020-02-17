@@ -6,10 +6,11 @@ var WIZARD_MANTLE_COLORS = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146,
 var WIZARD_EYE_COLORS = ['black', 'red', 'blue', 'yellow', 'green'];
 var WIZARDS_FIREBALL_COLORS = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
 
-var ESC_KEY = 'Escape';
-var ENTER_KEY = 'Enter';
+var ESC_KEY = 27;
+var ENTER_KEY = 13;
 var MIN_NAME_LENGTH = 2;
 var MAX_NAME_LENGTH = 25;
+var INPUT_CLASS = 'setup-user-name';
 
 // переменные
 var setup = document.querySelector('.setup');
@@ -36,7 +37,7 @@ var similarWizardTemplate = document.querySelector('#similar-wizard-template')
   .querySelector('.setup-similar-item');
 
 // удаляет класс, скрывающий окно
-setup.classList.remove('hidden');
+// setup.classList.remove('hidden');
 
 // функция рандомное число
 var getRandomNumber = function (min, max) {
@@ -85,8 +86,11 @@ similarCharacters.classList.remove('hidden');
 
 // Открытие/закрытие окна настройки персонажа
 var onPopupEscPress = function (evt) {
-  if (evt.key === ESC_KEY) {
-    closePopup();
+  if (evt.keyCode === ESC_KEY) {
+    var activeElement = document.activeElement;
+    if (!activeElement.classList.contains(INPUT_CLASS)) {
+      closePopup();
+    }
   }
 };
 
@@ -100,12 +104,10 @@ var closePopup = function () {
   document.removeEventListener('keydown', onPopupEscPress);
 };
 
-setupOpen.addEventListener('click', function () {
-  openPopup();
-});
+setupOpen.addEventListener('click', openPopup);
 
 setupOpen.addEventListener('keydown', function (evt) {
-  if (evt.key === ENTER_KEY) {
+  if (evt.keyCode === ENTER_KEY) {
     openPopup();
   }
 });
@@ -115,17 +117,17 @@ setupClose.addEventListener('click', function () {
 });
 
 setupClose.addEventListener('keydown', function (evt) {
-  if (evt.key === ENTER_KEY) {
+  if (evt.keyCode === ENTER_KEY) {
     closePopup();
   }
 });
 
 // сообщение об ошибке
 var inputInvalidHandler = function (evt) {
-  var target = evt.target;
-  if (target.value.length < MIN_NAME_LENGTH) {
+  var target = evt.target.value;
+  if (target.length < MIN_NAME_LENGTH) {
     userNameInput.setCustomValidity('Имя должно состоять минимум из ' + MIN_NAME_LENGTH + '-х символов');
-  } else if (target.value.length > MAX_NAME_LENGTH) {
+  } else if (target.length > MAX_NAME_LENGTH) {
     userNameInput.setCustomValidity('Имя не должно превышать ' + MAX_NAME_LENGTH + '-ти символов');
   } else {
     userNameInput.setCustomValidity('');
